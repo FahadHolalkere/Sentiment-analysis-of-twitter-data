@@ -5,7 +5,7 @@ from nltk.corpus import stopwords
 import csv
 import string
 
-input_file_path = 'excel/master.csv'
+input_file_path = 'tweet_file.csv'
 
 output_file_path = 'excel/result.csv'
 

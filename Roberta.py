@@ -16,7 +16,7 @@ from scipy.special import softmax
 
 
 
-# file_path = r'master.csv'
+# file_path = r'excel/output.csv'
 
 # df = pd.read_csv(file_path, quoting=csv.QUOTE_MINIMAL, doublequote=True, escapechar='\\', encoding='unicode_escape')
 
@@ -43,7 +43,7 @@ from scipy.special import softmax
 
 # output_file_path = r'tweet2.csv'
 # df.to_csv(output_file_path, index=False)
-df = pd.read_csv('excel/tweet2.csv')
+df = pd.read_csv('tweet2.csv')
 
 mean_sentiment = df[['neg', 'neu', 'pos']].mean()
 

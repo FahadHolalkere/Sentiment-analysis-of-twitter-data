@@ -8,6 +8,9 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import pickle
 import subprocess
+from tkinter import filedialog
+from matplotlib.figure import Figure
+from datetime import datetime
 
 def compare_results():
     label.config(text="Comparison")
@@ -234,6 +237,39 @@ def generate_wordcount():
     canvas_widget = canvas.get_tk_widget()
     canvas_widget.pack(expand=True, fill='both')
 
+def create_bar_graph():
+    # Read data from CSV file
+    df = pd.read_csv('date.csv')
+
+    # Convert 'Date' column to datetime
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    # Create Tkinter window
+    root = tk.Tk()
+    root.title("Bar Graph")
+
+    # Create a figure and axis
+    fig = Figure(figsize=(8, 6))
+    ax = fig.add_subplot(111)
+
+    # Plot the bar graph
+    colors = ['green' if score >= 0 else 'red' for score in df['Score']]
+    ax.bar(df['Date'], df['Score'], width=0.4, align='center', color=colors)
+
+    # Set axis labels and title
+    ax.set_xlabel('Date')
+    ax.set_ylabel('Score')
+    ax.set_title('Combined Positive and Negative Scores')
+
+    # Rotate x-axis labels for better readability
+    plt.xticks(rotation=45)
+
+    # Create a Tkinter canvas
+    canvas = FigureCanvasTkAgg(fig, master=root)
+    canvas.draw()
+    canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+
+
 def clear_canvas():
     # Destroy the existing canvas
     for widget in root.winfo_children():
@@ -268,6 +304,9 @@ button_compare.pack(side=tk.LEFT, padx=5, expand=True, fill='both')
 
 button_wordcount = ttk.Button(button_frame, text="Generate Wordcloud", command=generate_wordcount)
 button_wordcount.pack(side=tk.LEFT, padx=5, expand=True, fill='both')
+
+load_button = ttk.Button(button_frame, text="Load Data", command=create_bar_graph)
+load_button.pack(side=tk.LEFT, padx=5, expand=True, fill='both')
 
 # Initialize the canvas for the first time
 canvas = FigureCanvasTkAgg(plt.Figure(), master=root)
